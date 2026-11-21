@@ -1,0 +1,15 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": ["app/globals.css"],
+        "createdAt": "2026-11-20T17:59:17.696Z",
+        "reason": "Developer doc (docs/TrustedtrAiner — Developer Documentation.pdf §1 ground rules) requires preserving the POC design pixel for pixel; gold gradient headings are ported verbatim from docs/poc/finaleee.html"
+      }
+    ]
+  }
+}

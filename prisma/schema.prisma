@@ -1,0 +1,44 @@
+// Site scope (35 man-days): Lead + AssessmentResponse.
+// Back-office models (AdminUser, Program, Faq, Testimonial, Outcome, SiteContent) are added in the ★ scope.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  ENROLLED
+  CLOSED
+}
+
+model Lead {
+  id          String               @id @default(cuid())
+  name        String
+  email       String
+  track       String
+  status      LeadStatus           @default(NEW)
+  notes       String?
+  source      String? // utm / referrer
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  assessments AssessmentResponse[]
+
+  @@index([email])
+  @@index([status, createdAt])
+}
+
+model AssessmentResponse {
+  id        String   @id @default(cuid())
+  answers   Json // [{ questionId, answerIndex }]
+  result    String // recommended track
+  leadId    String?
+  lead      Lead?    @relation(fields: [leadId], references: [id])
+  createdAt DateTime @default(now())
+}
