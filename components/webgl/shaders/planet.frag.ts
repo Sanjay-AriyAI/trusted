@@ -1,0 +1,20 @@
+/* Ported verbatim from docs/poc/finaleee.html (main script). Do not edit without comparing against the POC. */
+export const planetFragmentShader = [
+  "precision highp float;",
+  "varying float vAlpha;",
+  "varying float vHeat;",
+  "varying float vField;",
+  "varying vec3 vColor;",
+  "void main(){",
+  "  vec2 uv = gl_PointCoord - vec2(0.5);",
+  "  float distanceFromCenter = length(uv);",
+  "  if(distanceFromCenter > 0.5) discard;",
+  "  float core = smoothstep(0.24, 0.0, distanceFromCenter);",
+  "  float halo = smoothstep(0.5, 0.18, distanceFromCenter);",
+  "  vec3 exactGold = min(vec3(1.0), vColor * 1.08);",
+  "  vec3 hotGold = vec3(1.0, 0.94, 0.62);",
+  "  vec3 color = mix(exactGold, hotGold, clamp((vHeat - 0.72) * 1.6 + vField * 0.52, 0.0, 0.78));",
+  "  float alpha = (halo * (0.18 + vField * 0.28) + core * 1.08) * vAlpha;",
+  "  gl_FragColor = vec4(color, alpha);",
+  "}",
+].join("\n");
